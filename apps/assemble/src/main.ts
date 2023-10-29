@@ -1,22 +1,27 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
-
-import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-
-import { AppModule } from './app/app.module';
+import { AssembleModule } from './assemble.module';
+import {
+  FastifyAdapter,
+  NestFastifyApplication,
+} from '@nestjs/platform-fastify';
+import { ConfigService } from '@nestjs/config';
+import { Configs } from '@assemble/config';
+import { AppUtils, HelperService } from '@assemble/common';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  const globalPrefix = 'api';
-  app.setGlobalPrefix(globalPrefix);
-  const port = process.env.PORT || 3000;
-  await app.listen(port);
-  Logger.log(
-    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
+  const app = await NestFactory.create<NestFastifyApplication>(
+    AssembleModule,
+    new FastifyAdapter(),
   );
-}
 
+  const configService = app.get(ConfigService<Configs, true>);
+
+  // =========================================================
+  // configure swagger
+  // =========================================================
+
+  if (!HelperService.isProd()) AppUtils.setupSwagger(app, configService);
+
+  await app.listen(3000);
+}
 bootstrap();

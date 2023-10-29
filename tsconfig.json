@@ -1,0 +1,45 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2021",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
+    "types": [
+      "./global.d.ts"
+    ],
+    "paths": {
+      "@assemble/config": [
+        "libs/config/src"
+      ],
+      "@assemble/config/*": [
+        "libs/config/src/*"
+      ],
+      "@assemble/constant": [
+        "libs/constant/src"
+      ],
+      "@assemble/constant/*": [
+        "libs/constant/src/*"
+      ],
+      "@assemble/common": [
+        "libs/common/src"
+      ],
+      "@assemble/common/*": [
+        "libs/common/src/*"
+      ]
+    }
+  }
+}
