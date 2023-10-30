@@ -12,15 +12,19 @@ import { LoggerErrorInterceptor } from 'nestjs-pino';
 import { I18nValidationExceptionFilter } from 'nestjs-i18n';
 import { useContainer } from 'class-validator';
 import chalk from 'chalk';
+import csrf from '@fastify/csrf-protection';
+import helmet from '@fastify/helmet';
 
-declare const module: { hot: { accept: () => void; dispose: (argument: () => Promise<void>) => void } };
+declare const module: {
+  hot: { accept: () => void; dispose: (argument: () => Promise<void>) => void };
+};
 
-const logger = new Logger("Bootstrap");
+const logger = new Logger('Bootstrap');
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AssembleModule,
-    new FastifyAdapter()
+    new FastifyAdapter(),
   );
 
   const configService = app.get(ConfigService<Configs, true>);
@@ -31,17 +35,67 @@ async function bootstrap() {
 
   if (!HelperService.isProd()) AppUtils.setupSwagger(app, configService);
 
+  // ======================================================
+  // security and middlewares
+  // ======================================================
+
+  await app.register(csrf);
+  await app.register(helmet, {
+    contentSecurityPolicy: false,
+    // When using apollo-server-fastify and @fastify/helmet, there may be a problem with CSP on the GraphQL playground, to solve this collision, configure the CSP as shown below:
+    // contentSecurityPolicy: {
+    //   directives: {
+    //     defaultSrc: [`'self'`, 'unpkg.com'],
+    //     styleSrc: [
+    //       `'self'`,
+    //       `'unsafe-inline'`,
+    //       'cdn.jsdelivr.net',
+    //       'fonts.googleapis.com',
+    //       'unpkg.com',
+    //     ],
+    //     fontSrc: [`'self'`, 'fonts.gstatic.com', 'data:'],
+    //     imgSrc: [`'self'`, 'data:', 'cdn.jsdelivr.net'],
+    //     scriptSrc: [
+    //       `'self'`,
+    //       `https: 'unsafe-inline'`,
+    //       `cdn.jsdelivr.net`,
+    //       `'unsafe-eval'`,
+    //     ],
+    //   },
+    // },
+  });
+
+  // app.enable("trust proxy");
+  // app.set("etag", "strong");
+  // app.use(
+  //   bodyParser.json({ limit: "10mb" }),
+  //   bodyParser.urlencoded({ limit: "10mb", extended: true }),
+  // );
+
+  if (!HelperService.isProd()) {
+    // app.use(compression());
+    // app.use(helmet());
+    app.enableCors({
+      credentials: true,
+      methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+      maxAge: 3600,
+      origin: configService.get('app.allowedOrigins', { infer: true }),
+    });
+  }
+
   // =====================================================
   // configure global pipes, filters, interceptors
   // =====================================================
 
-  const globalPrefix = configService.get("app.prefix", { infer: true });
+  const globalPrefix = configService.get('app.prefix', { infer: true });
 
   app.setGlobalPrefix(globalPrefix);
 
   app.useGlobalPipes(new ValidationPipe(AppUtils.validationPipeOptions()));
 
-  app.useGlobalFilters(new I18nValidationExceptionFilter({ detailedErrors: false }));
+  app.useGlobalFilters(
+    new I18nValidationExceptionFilter({ detailedErrors: false }),
+  );
 
   app.useGlobalInterceptors(new LoggerErrorInterceptor());
 
@@ -58,7 +112,8 @@ async function bootstrap() {
     module.hot.dispose(() => app.close());
   }
 
-  const port = process.env.PORT ?? configService.get("app.port", { infer: true })!;
+  const port =
+    process.env.PORT ?? configService.get('app.port', { infer: true })!;
 
   await app.listen(port);
 
@@ -70,7 +125,7 @@ async function bootstrap() {
   logger.log(`==========================================================`);
   logger.log(
     `🚦 Accepting request only from: ${chalk.green(
-      `${configService.get("app.allowedOrigins", { infer: true }).toString()}`,
+      `${configService.get('app.allowedOrigins', { infer: true }).toString()}`,
     )}`,
   );
 

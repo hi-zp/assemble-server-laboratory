@@ -17,7 +17,7 @@ export const appConfigValidationSchema = {
   }),
   APP_NAME: Joi.string().required(),
   CLIENT_URL: Joi.string().uri().required(),
-  ALLOWED_HOSTS: Joi.string().optional(),
+  ALLOWED_ORIGINS: Joi.string().optional(),
   DB_ENGINE: Joi.string()
     .valid(...DATABASE_ENGINE)
     .required(),
