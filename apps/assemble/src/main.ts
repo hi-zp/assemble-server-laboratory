@@ -6,7 +6,7 @@ import {
 } from '@nestjs/platform-fastify';
 import { ConfigService } from '@nestjs/config';
 import { Configs } from '@assemble/config';
-import { AppUtils, HelperService } from '@assemble/common';
+import { AppUtils, HelperService, createLogger } from '@assemble/common';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { LoggerErrorInterceptor } from 'nestjs-pino';
 import { I18nValidationExceptionFilter } from 'nestjs-i18n';
@@ -26,6 +26,10 @@ async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AssembleModule,
     new FastifyAdapter(),
+    {
+      logger: await createLogger(),
+      snapshot: true,
+    },
   );
 
   const configService = app.get(ConfigService<Configs, true>);
