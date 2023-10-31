@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { AssembleService } from './assemble.service';
 
-@Controller()
+@Controller('')
 export class AssembleController {
   constructor(private readonly assembleService: AssembleService) {}
 

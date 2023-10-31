@@ -1,13 +1,18 @@
+import { IncomingMessage } from 'http';
+
 export {};
 
-declare global {
-  namespace Express {
-    export interface Request {
-      user?: any;
-      realIp: string;
-    }
+declare module 'fastify' {
+  interface FastifyRequest<HttpRequest = IncomingMessage> {
+    // TODO
+    raw: HttpRequest & {
+      realIp?: string;
+    };
+    realIp?: string;
   }
+}
 
+declare global {
   namespace NodeJS {
     interface ProcessEnv {
       APP_PORT: number;

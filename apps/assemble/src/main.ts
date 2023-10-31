@@ -14,6 +14,7 @@ import { useContainer } from 'class-validator';
 import chalk from 'chalk';
 import csrf from '@fastify/csrf-protection';
 import helmet from '@fastify/helmet';
+import { SWAGGER_API_ENDPOINT } from '@assemble/constant';
 
 declare const module: {
   hot: { accept: () => void; dispose: (argument: () => Promise<void>) => void };
@@ -130,7 +131,7 @@ async function bootstrap() {
   );
 
   if (!HelperService.isProd()) {
-    const swaggerUrl = `http://localhost:${port}/doc`;
+    const swaggerUrl = `http://localhost:${port}/${SWAGGER_API_ENDPOINT}`;
     logger.log(`==========================================================`);
     logger.log(`📑 Swagger is running on: ${chalk.green(swaggerUrl)}`);
   }
