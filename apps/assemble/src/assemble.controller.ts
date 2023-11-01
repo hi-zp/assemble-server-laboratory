@@ -1,5 +1,6 @@
 import { Controller, Get, Logger } from '@nestjs/common';
 import { AssembleService } from './assemble.service';
+import { translate } from '@assemble/common';
 
 @Controller()
 export class AssembleController {
@@ -20,5 +21,12 @@ export class AssembleController {
     this.logger.log('foo');
     this.logger.error('error');
     return 'helthcheck log';
+  }
+
+  @Get('/i18ncheck')
+  i18ncheck(): string {
+    return translate('validation.maxLength', {
+      defaultValue: '1234',
+    }) as string;
   }
 }

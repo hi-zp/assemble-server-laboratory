@@ -7,14 +7,18 @@ import {
 import { AssembleController } from './assemble.controller';
 import { AssembleService } from './assemble.service';
 import { NestConfigModule } from '@assemble/config';
-import { IpMiddleware, NestLoggerModule } from '@assemble/common';
+import {
+  IpMiddleware,
+  NestI18nModule,
+  NestLoggerModule,
+} from '@assemble/common';
 import { SWAGGER_API_ENDPOINT } from '@assemble/constant';
 
 const stripeWebhookPath = 'stripe/webhook';
 const excludedPaths = [stripeWebhookPath, SWAGGER_API_ENDPOINT];
 
 @Module({
-  imports: [NestConfigModule, NestLoggerModule],
+  imports: [NestConfigModule, NestLoggerModule, NestI18nModule],
   controllers: [AssembleController],
   providers: [AssembleService],
 })

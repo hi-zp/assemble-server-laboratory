@@ -5,7 +5,13 @@
   "compilerOptions": {
     "deleteOutDir": true,
     "webpack": true,
-    "tsConfigPath": "apps/assemble/tsconfig.app.json"
+    "tsConfigPath": "apps/assemble/tsconfig.app.json",
+    "assets": [
+      {
+        "include": "../../../libs/common/src/resources/**/*",
+        "outDir": "dist"
+      }
+    ]
   },
   "monorepo": true,
   "root": "apps/assemble",
