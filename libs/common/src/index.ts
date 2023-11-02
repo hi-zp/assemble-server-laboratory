@@ -5,5 +5,6 @@ export * from './helpers';
 export * from './ip';
 export * from './logger';
 export * from './i18n';
+export * from './serve-static';
 
 export * from './generated';
