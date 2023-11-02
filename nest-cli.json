@@ -9,7 +9,8 @@
     "assets": [
       {
         "include": "../../../libs/common/src/resources/**/*",
-        "outDir": "dist"
+        "outDir": "dist",
+        "watchAssets": true
       }
     ]
   },

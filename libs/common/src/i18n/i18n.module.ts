@@ -8,8 +8,8 @@ import {
   I18nModule,
   QueryResolver,
 } from 'nestjs-i18n';
-import { Configs } from '@assemble/config';
 import { HelperService } from '../helpers';
+import { Configs } from '../config';
 
 @Module({
   imports: [

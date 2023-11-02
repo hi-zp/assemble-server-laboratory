@@ -15,7 +15,7 @@ import {
   SWAGGER_TITLE,
 } from '@assemble/constant';
 import { HelperService } from './helpers.utils';
-import { Configs } from '@assemble/config';
+import { Configs } from '../config';
 
 const logger = new Logger('App:Utils');
 

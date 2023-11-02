@@ -20,12 +20,6 @@
     "noFallthroughCasesInSwitch": false,
     "types": ["./global.d.ts"],
     "paths": {
-      "@assemble/config": [
-        "libs/config/src"
-      ],
-      "@assemble/config/*": [
-        "libs/config/src/*"
-      ],
       "@assemble/constant": [
         "libs/constant/src"
       ],

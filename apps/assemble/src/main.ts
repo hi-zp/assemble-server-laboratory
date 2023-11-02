@@ -5,8 +5,12 @@ import {
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import { ConfigService } from '@nestjs/config';
-import { Configs } from '@assemble/config';
-import { AppUtils, HelperService, createLogger } from '@assemble/common';
+import {
+  AppUtils,
+  Configs,
+  HelperService,
+  createLogger,
+} from '@assemble/common';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { LoggerErrorInterceptor } from 'nestjs-pino';
 import { I18nValidationExceptionFilter } from 'nestjs-i18n';

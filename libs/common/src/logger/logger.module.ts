@@ -1,9 +1,9 @@
-import { Configs } from '@assemble/config';
 import { SWAGGER_API_ENDPOINT } from '@assemble/constant';
 import { Module, RequestMethod } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LoggerModule } from 'nestjs-pino';
 import { HelperService } from '../helpers';
+import { Configs } from '../config';
 
 // Fields to redact from logs
 const redactFields = [

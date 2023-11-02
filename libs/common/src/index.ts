@@ -1,6 +1,7 @@
 export * from './common.module';
 export * from './common.service';
 
+export * from './config';
 export * from './helpers';
 export * from './ip';
 export * from './logger';
