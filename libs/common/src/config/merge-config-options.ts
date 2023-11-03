@@ -1,5 +1,4 @@
-import { ConfigModuleOptions } from '@nestjs/config';
-import { resolve } from 'node:path';
+import { ConfigFactory, ConfigModuleOptions } from '@nestjs/config';
 import * as dotenv from 'dotenv';
 import {
   app,
@@ -29,19 +28,21 @@ import {
 } from './configs';
 import Joi from 'joi';
 import { Logger } from '@nestjs/common';
-import { HelperService } from '../helpers';
-import chalk from 'chalk';
+import dotEnvExpand from 'dotenv-expand';
 
 const logger = new Logger('NestConfig');
+
+const envFilePath = `${process.cwd()}/env/.env.${process.env.NODE_ENV}`;
+
+const environment = dotenv.config({ path: envFilePath });
+
+dotEnvExpand.expand(environment);
+
+logger.log(`🛠️  Using env ${envFilePath}\n`);
 
 export const mergeConfigOptions = (
   getOptions: () => ConfigModuleOptions,
 ): ConfigModuleOptions => {
-  const envFilePath = resolve(
-    process.cwd(),
-    `env/.env.${process.env.NODE_ENV}`,
-  );
-
   const load: ConfigModuleOptions['load'] = [app, jwt, throttle];
   const validationSchema = {
     ...appConfigValidationSchema,
@@ -49,46 +50,40 @@ export const mergeConfigOptions = (
     ...throttleConfigValidationSchema,
   };
 
-  const variables = (dotenv.config({ path: envFilePath }).parsed ||
-    process.env) as NodeJS.ProcessEnv;
+  const append = (
+    configFactory: ConfigFactory,
+    schema: { [key: string]: Joi.Schema },
+  ) => {
+    load.push(configFactory);
+    Object.assign(validationSchema, { ...schema });
+  };
 
-  if (HelperService.isDev()) {
-    logger.verbose(chalk.green(JSON.stringify(variables, null, 2)));
+  if (process.env.DB_ENGINE != 'sqlite') {
+    append(database, databaseConfigValidationSchema);
   }
 
-  if (variables.DB_ENGINE != 'sqlite') {
-    load.push(database);
-    Object.assign(validationSchema, { ...databaseConfigValidationSchema });
+  if (process.env.SENTRY_DSN) {
+    append(sentry, sentryConfigurationValidationSchema);
   }
 
-  if (variables.SENTRY_DSN) {
-    load.push(sentry);
-    Object.assign(validationSchema, { ...sentryConfigurationValidationSchema });
+  if (process.env.REDIS_HOST) {
+    append(redis, redisConfigValidationSchema);
   }
 
-  if (variables.REDIS_HOST) {
-    load.push(redis);
-    Object.assign(validationSchema, { ...redisConfigValidationSchema });
+  if (process.env.CLOUDINARY_CLOUD_NAME) {
+    append(cloudinary, cloudinaryConfigValidationSchema);
   }
 
-  if (variables.CLOUDINARY_CLOUD_NAME) {
-    load.push(cloudinary);
-    Object.assign(validationSchema, { ...cloudinaryConfigValidationSchema });
+  if (process.env.MAIL_SERVER) {
+    append(mail, mailConfigValidationSchema);
   }
 
-  if (variables.MAIL_SERVER) {
-    load.push(mail);
-    Object.assign(validationSchema, { ...mailConfigValidationSchema });
+  if (process.env.FACEBOOK_CLIENT_ID) {
+    append(facebookOauth, facebookOauthConfigValidationSchema);
   }
 
-  if (variables.FACEBOOK_CLIENT_ID) {
-    load.push(facebookOauth);
-    Object.assign(validationSchema, { ...facebookOauthConfigValidationSchema });
-  }
-
-  if (variables.GOOGLE_CLIENT_ID) {
-    load.push(googleOauth);
-    Object.assign(validationSchema, { ...googleOauthConfigValidationSchema });
+  if (process.env.GOOGLE_CLIENT_ID) {
+    append(googleOauth, googleOauthConfigValidationSchema);
   }
 
   return {
