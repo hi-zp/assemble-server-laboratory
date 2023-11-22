@@ -8,4 +8,6 @@ export * from './logger';
 export * from './i18n';
 export * from './serve-static';
 
+export * from './database';
+
 export * from './generated';

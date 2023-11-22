@@ -18,7 +18,9 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-    "types": ["./global.d.ts"],
+    "types": [
+      "./global.d.ts"
+    ],
     "paths": {
       "@assemble/constant": [
         "libs/constant/src"
@@ -31,6 +33,24 @@
       ],
       "@assemble/common/*": [
         "libs/common/src/*"
+      ],
+      "@assemble/dabatase": [
+        "libs/dabatase/src"
+      ],
+      "@assemble/dabatase/*": [
+        "libs/dabatase/src/*"
+      ],
+      "@assemble/entities": [
+        "libs/entities/src"
+      ],
+      "@assemble/entities/*": [
+        "libs/entities/src/*"
+      ],
+      "@assemble/modules": [
+        "libs/modules/src"
+      ],
+      "@assemble/modules/*": [
+        "libs/modules/src/*"
       ]
     }
   }

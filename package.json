@@ -17,13 +17,20 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./apps/assemble/test/jest-e2e.json"
+    "test:e2e": "jest --config ./apps/assemble/test/jest-e2e.json",
+    "migrate:create": "npx ts-node libs/common/src/database/create-schema.ts"
   },
   "dependencies": {
     "@fastify/csrf-protection": "^6.4.0",
     "@fastify/helmet": "^11.1.1",
     "@fastify/static": "^6.11.2",
     "@fastify/view": "^8.2.0",
+    "@mikro-orm/better-sqlite": "^6.0.0-rc.1",
+    "@mikro-orm/core": "^6.0.0-rc.1",
+    "@mikro-orm/nestjs": "^5.2.2",
+    "@mikro-orm/postgresql": "^6.0.0-rc.1",
+    "@mikro-orm/reflection": "^6.0.0-rc.1",
+    "@mikro-orm/sql-highlighter": "^1.0.1",
     "@nestjs/common": "10.2.7",
     "@nestjs/config": "^3.1.1",
     "@nestjs/core": "10.2.7",
@@ -46,7 +53,6 @@
     "pino-http": "^8.5.1",
     "pino-pretty": "^10.2.3",
     "prom-client": "^15.0.0",
-    "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
     "sharp": "^0.32.6",
     "swagger-stats": "^0.99.7"
@@ -96,7 +102,9 @@
     ],
     "moduleNameMapper": {
       "^@assemble/constant(|/.*)$": "<rootDir>/libs/constant/src/$1",
-      "^@assemble/common(|/.*)$": "<rootDir>/libs/common/src/$1"
+      "^@assemble/common(|/.*)$": "<rootDir>/libs/common/src/$1",
+      "^@assemble/entities(|/.*)$": "<rootDir>/libs/entities/src/$1",
+      "^@assemble/modules(|/.*)$": "<rootDir>/libs/modules/src/$1"
     }
   }
 }

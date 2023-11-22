@@ -49,6 +49,10 @@ This function is used to determine if the application is running in a production
     return process.env.NODE_ENV.startsWith('prod');
   },
 
+  useSqlite(): boolean {
+    return process.env.DB_ENGINE === 'sqlite';
+  },
+
   /* The `getAppRootDir()` function is used to determine the root directory of the application. It starts
 by setting the `currentDirectory` variable to the value of `__dirname`, which represents the current
 directory of the module. */

@@ -4,6 +4,7 @@ import { NestLoggerModule } from './logger';
 import { NestI18nModule } from './i18n';
 import { NestServeStaticModule } from './serve-static';
 import { NestConfigModule } from './config';
+import { DatabaseModule } from './database';
 
 @Module({
   providers: [CommonService],
@@ -13,6 +14,7 @@ import { NestConfigModule } from './config';
     NestLoggerModule,
     NestI18nModule,
     NestServeStaticModule,
+    DatabaseModule,
   ],
 })
 export class CommonModule {}

@@ -13,6 +13,8 @@ import {
   googleOauthConfigValidationSchema,
   jwt,
   jwtConfigValidationSchema,
+  liteDatabase,
+  liteDatabaseConfigValidationSchema,
   mail,
   mailConfigValidationSchema,
   // rabbitmq,
@@ -29,6 +31,7 @@ import {
 import Joi from 'joi';
 import { Logger } from '@nestjs/common';
 import dotEnvExpand from 'dotenv-expand';
+import { HelperService } from '../helpers';
 
 const logger = new Logger('NestConfig');
 
@@ -58,7 +61,9 @@ export const mergeConfigOptions = (
     Object.assign(validationSchema, { ...schema });
   };
 
-  if (process.env.DB_ENGINE != 'sqlite') {
+  if (HelperService.useSqlite()) {
+    append(liteDatabase, liteDatabaseConfigValidationSchema);
+  } else {
     append(database, databaseConfigValidationSchema);
   }
 
