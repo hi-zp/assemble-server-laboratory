@@ -38,12 +38,6 @@ async function bootstrap() {
 
   const configService = app.get(ConfigService<Configs, true>);
 
-  // =========================================================
-  // configure swagger
-  // =========================================================
-
-  if (!HelperService.isProd()) AppUtils.setupSwagger(app, configService);
-
   // ======================================================
   // security and middlewares
   // ======================================================
@@ -115,6 +109,12 @@ async function bootstrap() {
   app.enableShutdownHooks();
 
   useContainer(app.select(AssembleModule), { fallbackOnErrors: true });
+
+  // =========================================================
+  // configure swagger
+  // =========================================================
+
+  if (!HelperService.isProd()) AppUtils.setupSwagger(app, configService);
 
   if (module.hot) {
     module.hot.accept();
