@@ -53,5 +53,8 @@
         "libs/modules/src/*"
       ]
     }
+  },
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
   }
 }

@@ -1,5 +1,4 @@
 import { ConfigFactory, ConfigModuleOptions } from '@nestjs/config';
-import * as dotenv from 'dotenv';
 import {
   app,
   appConfigValidationSchema,
@@ -29,19 +28,8 @@ import {
   throttleConfigValidationSchema,
 } from './configs';
 import Joi from 'joi';
-import { Logger } from '@nestjs/common';
-import dotEnvExpand from 'dotenv-expand';
 import { HelperService } from '../helpers';
-
-const logger = new Logger('NestConfig');
-
-const envFilePath = `${process.cwd()}/env/.env.${process.env.NODE_ENV}`;
-
-const environment = dotenv.config({ path: envFilePath });
-
-dotEnvExpand.expand(environment);
-
-logger.log(`🛠️  Using env ${envFilePath}\n`);
+import { envFilePath } from './environment';
 
 export const mergeConfigOptions = (
   getOptions: () => ConfigModuleOptions,

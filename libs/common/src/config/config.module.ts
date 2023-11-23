@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { mergeConfigOptions } from './merge-config-options';
+import { mergeConfigOptions } from './config-options';
 import { HelperService } from '../helpers';
 
 @Module({

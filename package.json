@@ -18,7 +18,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./apps/assemble/test/jest-e2e.json",
-    "migrate:create": "npx ts-node libs/common/src/database/create-schema.ts"
+    "migrate:create:dev": "NODE_ENV=dev npx ts-node libs/common/src/database/create-schema.ts"
   },
   "dependencies": {
     "@fastify/csrf-protection": "^6.4.0",

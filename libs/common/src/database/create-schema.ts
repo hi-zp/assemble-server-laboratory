@@ -1,11 +1,13 @@
 import { MikroORM } from '@mikro-orm/core';
-import * as Entities from './entities';
+import { Logger } from '@nestjs/common';
+import '../config/environment';
 import { mikroOrmConfig } from './mikro-orm-cli.config';
+
+const logger = new Logger('MikroCreateSchema');
 
 (async () => {
   const orm = await MikroORM.init({
     ...mikroOrmConfig,
-    entities: Object.values(Entities),
     dbName: process.env.DB_DATABASE,
     password: process.env.DB_PASSWORD,
     port: Number(process.env.DB_PORT),
@@ -15,17 +17,17 @@ import { mikroOrmConfig } from './mikro-orm-cli.config';
   const generator = orm.schema;
 
   const dropDump = await generator.getDropSchemaSQL();
-  console.log(dropDump);
+  logger.log(dropDump);
 
   const createDump = await generator.getCreateSchemaSQL();
-  console.log(createDump);
+  logger.log(createDump);
 
   const updateDump = await generator.getUpdateSchemaSQL();
-  console.log(updateDump);
+  logger.log(updateDump);
 
   // there is also `generate()` method that returns drop + create queries
   // const dropAndCreateDump = await generator.generate();
-  // console.log(dropAndCreateDump);
+  // logger.log(dropAndCreateDump);
 
   // or you can run those queries directly, but be sure to check them first!
   await generator.dropSchema();
