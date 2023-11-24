@@ -2,9 +2,9 @@
   "name": "assemble-server-laboratory",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": "luckcoding@gmail.com",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "LICENSE",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
@@ -106,5 +106,8 @@
       "^@assemble/entities(|/.*)$": "<rootDir>/libs/entities/src/$1",
       "^@assemble/modules(|/.*)$": "<rootDir>/libs/modules/src/$1"
     }
-  }
+  },
+  "main": "index.js",
+  "repository": "git@github.com:hi-zp/assemble-server-laboratory.git",
+  "packageManager": "yarn@4.0.2"
 }
