@@ -12,7 +12,8 @@
         "outDir": "dist",
         "watchAssets": true
       }
-    ]
+    ],
+    "plugins": ["@nestjs/swagger"]
   },
   "monorepo": true,
   "root": "apps/assemble",

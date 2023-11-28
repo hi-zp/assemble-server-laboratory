@@ -8,6 +8,9 @@ export * from './logger';
 export * from './i18n';
 export * from './serve-static';
 
+export * from './decorators';
+export * from './pagination';
+
 export * from './database';
 
 export * from './generated';
