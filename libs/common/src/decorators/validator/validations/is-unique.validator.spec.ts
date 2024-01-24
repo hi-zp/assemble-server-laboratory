@@ -1,9 +1,11 @@
 import { createMock } from '@golevelup/ts-jest';
-import { EntityManager, Property } from '@mikro-orm/core';
+import { EntityManager, Property } from '@mikro-orm/postgresql';
 import { Test } from '@nestjs/testing';
+// import { User } from '@entities';
 import { IsUniqueConstraint } from './is-unique.validator';
 import type { IsUniqueValidationContext } from './is-unique.validator';
 
+// TODO
 class User {
   @Property({ index: true, unique: true })
   username!: string;
@@ -41,7 +43,7 @@ describe('isUnique', () => {
     );
 
     expect(result).toBeTruthy();
-    expect(mockEm.count).toBeCalledWith(User, { username });
+    expect(mockEm.count).toHaveBeenCalledWith(User, { username });
   });
 
   it('should fail if there are  duplicates', async () => {
@@ -52,6 +54,6 @@ describe('isUnique', () => {
     );
 
     expect(result).toBeFalsy();
-    expect(mockEm.count).toBeCalledWith(User, { username });
+    expect(mockEm.count).toHaveBeenCalledWith(User, { username });
   });
 });

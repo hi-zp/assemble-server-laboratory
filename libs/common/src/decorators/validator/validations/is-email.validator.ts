@@ -9,6 +9,7 @@ import {
 import { Transform } from 'class-transformer';
 import type { EmailFieldOptions } from '../validator.interface';
 import { validationI18nMessage } from '@assemble/common/i18n';
+import { normalizeEmail } from 'helper-fns';
 
 export function IsEmailField(options_?: EmailFieldOptions) {
   const options: EmailFieldOptions = {
@@ -20,6 +21,11 @@ export function IsEmailField(options_?: EmailFieldOptions) {
     Transform(({ value }: { value: string }) => value.toLowerCase(), {
       toClassOnly: true,
     }),
+    Transform(
+      ({ value }): string =>
+        typeof value === 'string' ? normalizeEmail(value) : value,
+      { toClassOnly: true },
+    ),
     IsEmail(
       {},
       {

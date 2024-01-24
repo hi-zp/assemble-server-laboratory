@@ -9,9 +9,9 @@ import { isAfter } from 'date-fns';
 @ValidatorConstraint({ async: true })
 class IsAfterConstraint implements ValidatorConstraintInterface {
   async validate(value: string, arguments_: ValidationArguments) {
-    const [relatedPropertyName] = arguments_.constraints;
+    const [relatedPropertyName] = arguments_.constraints as unknown[];
     const relatedValue = (arguments_.object as Record<string, string | Date>)[
-      relatedPropertyName
+      relatedPropertyName as string
     ] as string | Date;
 
     return isAfter(new Date(value), new Date(relatedValue));
@@ -19,9 +19,9 @@ class IsAfterConstraint implements ValidatorConstraintInterface {
 
   defaultMessage(arguments_: ValidationArguments) {
     const property = arguments_.property;
-    const [relatedPropertyName] = arguments_.constraints;
+    const [relatedPropertyName] = arguments_.constraints as unknown[];
 
-    return `${property} should be after ${relatedPropertyName}`;
+    return `${property} should be after ${relatedPropertyName as string}`;
   }
 }
 
