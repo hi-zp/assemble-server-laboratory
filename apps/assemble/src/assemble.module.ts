@@ -20,6 +20,10 @@ const excludedPaths = [stripeWebhookPath, SWAGGER_API_ENDPOINT];
 })
 export class AssembleModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
+    // applyRawBodyOnlyTo(consumer, {
+    //   path: stripeWebhookPath,
+    //   method: RequestMethod.ALL,
+    // });
     consumer
       .apply(IpMiddleware)
       .exclude(
@@ -33,10 +37,10 @@ export class AssembleModule implements NestModule {
           path: '*',
           method: RequestMethod.ALL,
         },
-        {
-          path: '/',
-          method: RequestMethod.ALL,
-        },
+        // {
+        //   path: '/',
+        //   method: RequestMethod.ALL,
+        // },
       );
   }
 }

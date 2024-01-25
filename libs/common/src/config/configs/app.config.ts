@@ -21,6 +21,7 @@ export const appConfigValidationSchema = {
   DB_ENGINE: Joi.string()
     .valid(...DATABASE_ENGINE)
     .required(),
+  // ALLOWED_HOSTS: Joi.string().optional(),
   SWAGGER_USER: Joi.string().required(),
   SWAGGER_PASSWORD: Joi.string().required(),
 };
@@ -37,6 +38,7 @@ export const app = registerAs('app', () => ({
     ? process.env.ALLOWED_ORIGINS.split(',')
     : '*',
   databaseEngine: process.env.DATABASE_ENGINE,
+  // sentryDsn: process.env.SENTRY_DSN,
   swaggerUser: process.env.SWAGGER_USER,
   swaggerPass: process.env.SWAGGER_PASSWORD,
 }));

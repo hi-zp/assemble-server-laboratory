@@ -6,10 +6,7 @@ import {
   ApiOperation,
   getSchemaPath,
 } from '@nestjs/swagger';
-import {
-  CursorPaginationResponse,
-  OffsetPaginationResponse,
-} from '../pagination';
+import { CursorPaginationResponse, OffsetPaginationResponse } from '../classes';
 
 /**
  * The `ApiPaginatedResponse` function is a TypeScript function that generates decorators for Swagger

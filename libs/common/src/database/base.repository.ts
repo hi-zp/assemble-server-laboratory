@@ -8,26 +8,29 @@ import {
   FindOptions,
   FromEntityType,
   Loaded,
+  OrderDefinition,
+  QueryOrderMap,
 } from '@mikro-orm/core';
 import { BaseEntity } from './base.entity';
 import { EntityRepository } from '@mikro-orm/knex';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { itemDoesNotExistKey, translate } from '../i18n';
 import {
-  CursorPaginationResponse,
-  CursorType,
-  OffsetMeta,
-  OffsetPaginationResponse,
   OppositeOrder,
   Order,
   PaginateOptions,
   QBCursorPaginationOptions,
   QBOffsetPaginationOptions,
-  QueryOrder,
   getOppositeOrder,
   getQueryOrder,
-} from '../pagination';
+} from '../interfaces';
 import { formatSearch } from 'helper-fns';
+import { QueryOrder, CursorType } from '../enums';
+import {
+  CursorPaginationResponse,
+  OffsetMeta,
+  OffsetPaginationResponse,
+} from '../classes';
 
 export class BaseRepository<T extends BaseEntity> extends EntityRepository<T> {
   private readonly encoding: BufferEncoding = 'base64';
@@ -253,10 +256,10 @@ export class BaseRepository<T extends BaseEntity> extends EntityRepository<T> {
   private getOrderBy<T>(
     cursor: keyof T,
     order: QueryOrder,
-  ): Record<string, QueryOrder | Record<string, QueryOrder>> {
+  ): OrderDefinition<T> {
     return {
       [cursor]: order,
-    };
+    } as QueryOrderMap<T>;
   }
 
   /**
@@ -480,15 +483,13 @@ export class BaseRepository<T extends BaseEntity> extends EntityRepository<T> {
       const oppositeOrder = getOppositeOrder(order);
       const countWhere = where;
 
-      // @ts-expect-error - because of runtime issues
-      countWhere.$and = this.getFilters('createdAt', decoded, oppositeOrder);
+      countWhere['$and'] = this.getFilters('createdAt', decoded, oppositeOrder);
       previousCount = await repo.count(countWhere);
 
-      where['$and '] = this.getFilters('createdAt', decoded, queryOrder);
+      where['$and'] = this.getFilters('createdAt', decoded, queryOrder);
     }
 
     const [entities, count] = await repo.findAndCount(where, {
-      // @ts-expect-error - because of runtime issues
       orderBy: this.getOrderBy(cursor, order),
       limit: first,
     });

@@ -42,7 +42,7 @@
     "argon2": "^0.31.1",
     "chalk": "4.1.2",
     "class-transformer": "^0.5.1",
-    "class-validator": "^0.14.0",
+    "class-validator": "^0.14.1",
     "date-fns": "^2.30.0",
     "date-fns-tz": "^2.0.0",
     "dotenv-expand": "^10.0.0",
@@ -82,7 +82,7 @@
     "ts-loader": "^9.5.0",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.2.2"
+    "typescript": "^5.3.3"
   },
   "jest": {
     "moduleFileExtensions": [
@@ -107,7 +107,6 @@
     "moduleNameMapper": {
       "^@assemble/constant(|/.*)$": "<rootDir>/libs/constant/src/$1",
       "^@assemble/common(|/.*)$": "<rootDir>/libs/common/src/$1",
-      "^@assemble/entities(|/.*)$": "<rootDir>/libs/entities/src/$1",
       "^@assemble/modules(|/.*)$": "<rootDir>/libs/modules/src/$1"
     }
   },

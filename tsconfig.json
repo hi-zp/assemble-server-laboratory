@@ -36,18 +36,6 @@
       "@assemble/common/*": [
         "libs/common/src/*"
       ],
-      "@assemble/dabatase": [
-        "libs/dabatase/src"
-      ],
-      "@assemble/dabatase/*": [
-        "libs/dabatase/src/*"
-      ],
-      "@assemble/entities": [
-        "libs/entities/src"
-      ],
-      "@assemble/entities/*": [
-        "libs/entities/src/*"
-      ],
       "@assemble/modules": [
         "libs/modules/src"
       ],
@@ -57,6 +45,8 @@
     }
   },
   "ts-node": {
-    "require": ["tsconfig-paths/register"]
+    "require": [
+      "tsconfig-paths/register"
+    ]
   }
 }

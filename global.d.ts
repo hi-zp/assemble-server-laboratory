@@ -1,4 +1,5 @@
 import { IncomingMessage } from 'http';
+import type { Configs as ConfigsInterface } from './libs/common/src/config/config.interface';
 
 export {};
 
@@ -7,12 +8,24 @@ declare module 'fastify' {
     // TODO
     raw: HttpRequest & {
       realIp?: string;
+      idx?: string;
+      ip: string;
+      i18nLang?: string;
+      ips: string[];
     };
     realIp?: string;
+    idx?: string;
+    ip: string;
+    i18nLang?: string;
+    ips: string[];
   }
+  // TODO
+  // interface User extends UserEntity {}
 }
 
 declare global {
+  export type Configs = ConfigsInterface;
+
   namespace NodeJS {
     interface ProcessEnv {
       APP_PORT: number;

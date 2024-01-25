@@ -5,7 +5,7 @@ import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
 import { SqlHighlighter } from '@mikro-orm/sql-highlighter';
 import { Logger, NotFoundException } from '@nestjs/common';
 
-import * as Entities from './entities';
+import * as Entities from '../entities';
 import { HelperService } from '../helpers';
 import { BaseRepository } from './base.repository';
 

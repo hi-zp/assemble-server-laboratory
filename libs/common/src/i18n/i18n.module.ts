@@ -9,7 +9,6 @@ import {
   QueryResolver,
 } from 'nestjs-i18n';
 import { HelperService } from '../helpers';
-import { Configs } from '../config';
 
 @Module({
   imports: [

@@ -5,12 +5,12 @@ import {
   BaseRepository,
   CursorPaginationDto,
   CursorType,
-  Options,
   PaginationResponse,
   QueryOrder,
   itemDoesNotExistKey,
   translate,
 } from '@assemble/common';
+import { Options } from '@assemble/common/entities';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { AutoPath } from '@mikro-orm/core/typings';
 

@@ -14,10 +14,10 @@ import { UpdateOptionDto } from './dto/update-option.dto';
 import {
   ApiPaginatedResponse,
   CursorPaginationDto,
-  Options,
   PaginationResponse,
 } from '@assemble/common';
 import { ApiTags } from '@nestjs/swagger';
+import { Options } from '@assemble/common/entities';
 
 @Controller('options')
 @ApiTags('options')

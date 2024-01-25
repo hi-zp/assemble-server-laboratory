@@ -1,8 +1,7 @@
 import { MikroOrmModule, MikroOrmModuleOptions } from '@mikro-orm/nestjs';
 import { Global, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import * as Entities from './entities';
-import { Configs } from '../config';
+import * as Entities from '../entities';
 import { mikroOrmConfig } from './mikro-orm-cli.config';
 
 @Global()

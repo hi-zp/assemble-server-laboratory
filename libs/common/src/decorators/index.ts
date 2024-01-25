@@ -1,2 +1,2 @@
-export * from './validator';
+export * from './validation';
 export * from './api-paginated.decorator';

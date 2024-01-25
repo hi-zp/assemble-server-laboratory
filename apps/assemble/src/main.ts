@@ -1,4 +1,4 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { AssembleModule } from './assemble.module';
 import {
   FastifyAdapter,
@@ -7,12 +7,11 @@ import {
 import { ConfigService } from '@nestjs/config';
 import {
   AppUtils,
-  Configs,
   HelperService,
+  LoggingInterceptor,
   createLogger,
 } from '@assemble/common';
 import { Logger, ValidationPipe } from '@nestjs/common';
-import { LoggerErrorInterceptor } from 'nestjs-pino';
 import { I18nValidationExceptionFilter } from 'nestjs-i18n';
 import { useContainer } from 'class-validator';
 import chalk from 'chalk';
@@ -100,7 +99,25 @@ async function bootstrap() {
     new I18nValidationExceptionFilter({ detailedErrors: false }),
   );
 
-  app.useGlobalInterceptors(new LoggerErrorInterceptor());
+  app.useGlobalInterceptors(
+    // new LoggerErrorInterceptor(),
+    new LoggingInterceptor(new Reflector()),
+  );
+
+  // =========================================================
+  // configure swagger
+  // =========================================================
+
+  if (!HelperService.isProd()) AppUtils.setupSwagger(app, configService);
+
+  // =========================================================
+  // configure socket
+  // =========================================================
+
+  // const redisIoAdapter = new SocketIOAdapter(app, configService);
+
+  // await redisIoAdapter.connectToRedis();
+  // app.useWebSocketAdapter(redisIoAdapter);
 
   // =========================================================
   // configure shutdown hooks
@@ -108,13 +125,9 @@ async function bootstrap() {
 
   app.enableShutdownHooks();
 
+  AppUtils.killAppWithGrace(app);
+
   useContainer(app.select(AssembleModule), { fallbackOnErrors: true });
-
-  // =========================================================
-  // configure swagger
-  // =========================================================
-
-  if (!HelperService.isProd()) AppUtils.setupSwagger(app, configService);
 
   if (module.hot) {
     module.hot.accept();

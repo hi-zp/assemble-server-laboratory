@@ -3,7 +3,6 @@ import { Module, RequestMethod } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LoggerModule } from 'nestjs-pino';
 import { HelperService } from '../helpers';
-import { Configs } from '../config';
 
 // Fields to redact from logs
 const redactFields = [
@@ -11,6 +10,7 @@ const redactFields = [
   'req.body.password',
   'req.body.confirmPassword',
 ];
+
 const basePinoOptions = {
   translateTime: true,
   ignore: 'pid,hostname',
@@ -23,13 +23,11 @@ const basePinoOptions = {
     LoggerModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       useFactory: (configService: ConfigService<Configs, true>) => ({
         pinoHttp: {
           timestamp: () =>
             `,"timestamp":"${new Date(Date.now()).toISOString()}"`,
           name: 'assemble',
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           customProps: (_request, _response) => ({
             context: 'HTTP',
           }),

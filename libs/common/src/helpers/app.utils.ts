@@ -15,7 +15,6 @@ import {
   SWAGGER_TITLE,
 } from '@assemble/constant';
 import { HelperService } from './helpers.utils';
-import { Configs } from '../config';
 
 const logger = new Logger('App:Utils');
 
@@ -28,32 +27,33 @@ export const AppUtils = {
       validateCustomDecorators: true,
       enableDebugMessages: HelperService.isDev(),
       exceptionFactory: i18nValidationErrorFactory,
+      // TODO https://github.com/typestack/class-validator/issues/958
+      stopAtFirstError: true,
     };
   },
 
-  gracefulShutdown(app: INestApplication, code: string) {
+  async gracefulShutdown(app: INestApplication, code: string) {
     setTimeout(() => process.exit(1), 5000);
     logger.verbose(`Signal received with code ${code} ⚡.`);
     logger.log('❗Closing http server with grace.');
-    app
-      .close()
-      .then(() => {
-        logger.log('✅ Http server closed.');
-        process.exit(0);
-      })
-      .catch((error) => {
-        logger.error(`❌ Http server closed with error: ${error}`);
-        process.exit(1);
-      });
+
+    try {
+      await app.close();
+      logger.log('✅ Http server closed.');
+      process.exit(0);
+    } catch (error: any) {
+      logger.error(`❌ Http server closed with error: ${error}`);
+      process.exit(1);
+    }
   },
 
   killAppWithGrace(app: INestApplication) {
-    process.on('SIGINT', () => {
-      AppUtils.gracefulShutdown(app, 'SIGINT');
+    process.on('SIGINT', async () => {
+      await AppUtils.gracefulShutdown(app, 'SIGINT');
     });
 
-    process.on('SIGTERM', () => {
-      AppUtils.gracefulShutdown(app, 'SIGTERM');
+    process.on('SIGTERM', async () => {
+      await AppUtils.gracefulShutdown(app, 'SIGTERM');
     });
   },
 
@@ -87,7 +87,7 @@ export const AppUtils = {
     const paths = Object.values(document.paths);
 
     for (const path of paths) {
-      const methods = Object.values(path);
+      const methods = Object.values(path) as { security: string[] }[];
 
       for (const method of methods) {
         if (

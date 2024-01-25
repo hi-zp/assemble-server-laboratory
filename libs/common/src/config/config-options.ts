@@ -1,4 +1,5 @@
 import { ConfigFactory, ConfigModuleOptions } from '@nestjs/config';
+import Joi from 'joi';
 import {
   app,
   appConfigValidationSchema,
@@ -27,9 +28,8 @@ import {
   throttle,
   throttleConfigValidationSchema,
 } from './configs';
-import Joi from 'joi';
-import { HelperService } from '../helpers';
 import { envFilePath } from './environment';
+import { HelperService } from '../helpers';
 
 export const mergeConfigOptions = (
   getOptions: () => ConfigModuleOptions,

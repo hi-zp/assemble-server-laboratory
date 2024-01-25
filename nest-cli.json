@@ -13,7 +13,9 @@
         "watchAssets": true
       }
     ],
-    "plugins": ["@nestjs/swagger"]
+    "plugins": [
+      "@nestjs/swagger"
+    ]
   },
   "monorepo": true,
   "root": "apps/assemble",
@@ -25,15 +27,6 @@
       "sourceRoot": "apps/assemble/src",
       "compilerOptions": {
         "tsConfigPath": "apps/assemble/tsconfig.app.json"
-      }
-    },
-    "config": {
-      "type": "library",
-      "root": "libs/config",
-      "entryFile": "index",
-      "sourceRoot": "libs/config/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/config/tsconfig.lib.json"
       }
     },
     "constant": {
@@ -52,15 +45,6 @@
       "sourceRoot": "libs/common/src",
       "compilerOptions": {
         "tsConfigPath": "libs/common/tsconfig.lib.json"
-      }
-    },
-    "entities": {
-      "type": "library",
-      "root": "libs/entities",
-      "entryFile": "index",
-      "sourceRoot": "libs/entities/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/entities/tsconfig.lib.json"
       }
     },
     "modules": {
